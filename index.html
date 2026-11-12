@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMANTAP 3D PRO - SMKN 6 Tebo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js & JsBarcode via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2><i class="fa-solid fa-box-open"></i> SIMANTAP</h2>
+        <div class="nav-item active" onclick="showPage('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</div>
+        
+        <!-- Menu Admin -->
+        <div id="menuAdmin" style="display:none;">
+            <p style="font-size: 0.8rem; margin: 15px 0 5px; opacity: 0.7;">MASTER DATA</p>
+            <div class="nav-item" onclick="showPage('inventaris')"><i class="fa-solid fa-boxes-stacked"></i> Inventaris</div>
+        </div>
+
+        <p style="font-size: 0.8rem; margin: 15px 0 5px; opacity: 0.7;">SIRKULASI</p>
+        <div class="nav-item" onclick="showPage('katalog')"><i class="fa-solid fa-shop"></i> Katalog Pinjam</div>
+        <div class="nav-item" onclick="showPage('transaksi')"><i class="fa-solid fa-handshake"></i> Transaksi</div>
+        
+        <div style="margin-top: auto;" class="nav-item" id="btnLogout"><i class="fa-solid fa-sign-out-alt"></i> Logout</div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="header">
+            <div>
+                <h1 id="pageTitle" style="color: var(--primary);">Dashboard Overview</h1>
+                <p id="userRoleBadge" style="color: var(--text-muted);">Memuat...</p>
+            </div>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div style="background: var(--soft-blue); padding: 10px; border-radius: 50%;"><i class="fa-solid fa-bell text-primary"></i></div>
+            </div>
+        </div>
+
+        <!-- PAGE: DASHBOARD -->
+        <div id="page-dashboard" class="page-view">
+            <div class="grid-cards">
+                <div class="card-3d" style="background: var(--soft-blue);">
+                    <h3>Total Aset</h3><h2 id="statAset">0</h2>
+                </div>
+                <div class="card-3d" style="background: var(--mint-green);">
+                    <h3>Sedang Dipinjam</h3><h2 id="statPinjam">0</h2>
+                </div>
+            </div>
+            <div class="card-3d" style="margin-top: 20px;">
+                <canvas id="kondisiChart" height="80"></canvas>
+            </div>
+        </div>
+
+        <!-- PAGE: INVENTARIS (ADMIN) -->
+        <div id="page-inventaris" class="page-view" style="display: none;">
+            <button class="btn-3d" onclick="document.getElementById('modalTambah').style.display='flex'">+ Tambah Aset</button>
+            <div class="card-3d" style="margin-top: 20px;">
+                <table>
+                    <thead><tr><th>SKU</th><th>Nama Barang</th><th>Kondisi</th><th>Stok</th><th>Aksi</th></tr></thead>
+                    <tbody id="tableInventaris"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAGE: KATALOG (USER/ADMIN) -->
+        <div id="page-katalog" class="page-view" style="display: none;">
+            <div class="grid-cards" id="gridKatalog"></div>
+        </div>
+
+        <!-- PAGE: TRANSAKSI -->
+        <div id="page-transaksi" class="page-view" style="display: none;">
+            <div class="card-3d">
+                <table>
+                    <thead><tr><th>Peminjam</th><th>Barang</th><th>Tgl Pinjam</th><th>Status</th><th>Aksi</th></tr></thead>
+                    <tbody id="tableTransaksi"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- AREA CETAK FISIK (Tersembunyi, Muncul via CSS @media print) -->
+    <div id="print-area">
+        <div id="print-content"></div>
+    </div>
+
+    <!-- MODAL TAMBAH ASET -->
+    <div class="modal-overlay" id="modalTambah">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px;">Tambah Master Aset</h3>
+            <form id="formAset">
+                <input type="text" id="sku" class="input-soft" placeholder="Kode SKU (Msl: BRG-001)" required>
+                <input type="text" id="namaBrg" class="input-soft" placeholder="Nama Barang (Msl: Proyektor Epson)" required>
+                <select id="kondisiBrg" class="input-soft">
+                    <option value="Baik">Baik</option>
+                    <option value="Rusak Ringan">Rusak Ringan</option>
+                </select>
+                <input type="number" id="stokBrg" class="input-soft" placeholder="Jumlah Stok" required>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button type="button" class="btn-3d secondary" onclick="document.getElementById('modalTambah').style.display='none'">Batal</button>
+                    <button type="submit" class="btn-3d">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SIMANTAP 3D PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, var(--soft-blue), var(--mint-green)); }
+        .login-card { width: 400px; text-align: center; }
+        .login-card img { width: 150px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="card-3d login-card">
+            <h2 style="color: var(--primary); margin-bottom: 10px;">SIMANTAP 3D</h2>
+            <p style="color: var(--text-muted); margin-bottom: 25px;">SMKN 6 Tebo</p>
+            
+            <form id="loginForm">
+                <input type="email" id="email" class="input-soft" placeholder="Email Sekolah" required>
+                <input type="password" id="password" class="input-soft" placeholder="Password" required>
+                <button type="submit" class="btn-3d" style="width: 100%; margin-top: 10px;">Masuk</button>
+            </form>
+            <p id="errorMsg" style="color: var(--secondary); margin-top: 15px; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK Modular CDN -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // GANTI DENGAN CONFIG FIREBASE ANDA (Langkah 3 di panduan)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDlPyiIPG61p7kywbBI4ZbBAJtssdcmWbA",
+  	    authDomain: "simantap-sarpas.firebaseapp.com",
+  	    projectId: "simantap-sarpas",
+  	    storageBucket: "simantap-sarpas.firebasestorage.app",
+  	    messagingSenderId: "699021070714",
+  	    appId: "1:699021070714:web:2fc1aba7776154f6c0c6c3",
+  	    measurementId: "G-CG4Q5CJGRQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            
+            signInWithEmailAndPassword(auth, email, pass)
+                .then((userCredential) => {
+                    window.location.href = "index.html"; // Berhasil login
+                })
+                .catch((error) => {
+                    document.getElementById('errorMsg').innerText = "Gagal login: Periksa email & password!";
+                    document.getElementById('errorMsg').style.display = "block";
+                });
+        });
+    </script>
+</body>
+</html>
