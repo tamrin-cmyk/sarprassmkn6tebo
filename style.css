@@ -1,0 +1,87 @@
+:root {
+  --primary: #8985E9; /* Lavender Purple */
+  --secondary: #F5B9D1; /* Soft Pink */
+  --bg-color: #FFF9F5; /* Warm Off White */
+  --soft-blue: #DCEBFF;
+  --mint-green: #DDF3E8;
+  --text-main: #202044;
+  --text-muted: #77758D;
+  --card-shadow: 0 12px 24px rgba(137, 133, 233, 0.1);
+  --btn-shadow: 0 4px 12px rgba(137, 133, 233, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+/* 3D Soft UI Elements */
+.card-3d {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+  border: 1px solid rgba(137, 133, 233, 0.1);
+  transition: transform 0.3s ease;
+}
+.card-3d:hover { transform: translateY(-5px); }
+
+.btn-3d {
+  background: linear-gradient(135deg, var(--primary), #7571d8);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--btn-shadow);
+  transition: all 0.3s ease;
+}
+.btn-3d:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(137, 133, 233, 0.4); }
+.btn-3d.secondary { background: var(--secondary); color: var(--text-main); }
+.btn-3d.outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); box-shadow: none;}
+
+/* Form Inputs */
+.input-soft {
+  width: 100%; padding: 12px 16px; border-radius: 12px;
+  border: 2px solid transparent; background: #f3f2fa;
+  color: var(--text-main); transition: 0.3s; margin-bottom: 15px;
+}
+.input-soft:focus { outline: none; border-color: var(--primary); background: #fff; }
+
+/* Layout */
+.sidebar { width: 260px; background: var(--primary); color: white; padding: 20px; display: flex; flex-direction: column; border-radius: 0 30px 30px 0; }
+.sidebar h2 { margin-bottom: 30px; display: flex; align-items: center; gap: 10px; font-size: 1.2rem; }
+.nav-item { padding: 12px 16px; margin-bottom: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; display: flex; gap: 12px; align-items: center; }
+.nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.2); }
+
+.main-content { flex: 1; padding: 30px; overflow-y: auto; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+
+/* Grid & Tables */
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+th { background: var(--soft-blue); color: var(--text-main); border-radius: 10px 10px 0 0; }
+.badge { padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+.badge.baik { background: var(--mint-green); color: #1e7045; }
+.badge.rusak { background: var(--secondary); color: #8a1f4b; }
+
+/* Modals */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(32,32,68,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+.modal-content { background: white; padding: 30px; border-radius: 24px; width: 90%; max-width: 500px; box-shadow: var(--card-shadow); }
+
+/* ==== LOGIKA PRINT MEDIA ==== */
+#print-area { display: none; }
+@media print {
+  body * { visibility: hidden; }
+  #print-area, #print-area * { visibility: visible; }
+  #print-area { display: block; position: absolute; left: 0; top: 0; width: 100%; background: white; padding: 20px; }
+  .sidebar, .header, .btn-3d { display: none !important; }
+  
+  /* Stiker Label Barcode */
+  .label-cetak { border: 2px solid #000; padding: 15px; width: 6cm; text-align: center; border-radius: 8px; margin-bottom: 10px; page-break-inside: avoid; }
+  
+  /* Kartu Peminjaman */
+  .kartu-cetak { border: 2px solid #000; padding: 20px; width: 100%; max-width: 800px; }
+  .kartu-cetak table { border: 1px solid #000; }
+  .kartu-cetak th, .kartu-cetak td { border: 1px solid #000; padding: 8px; }
+}
